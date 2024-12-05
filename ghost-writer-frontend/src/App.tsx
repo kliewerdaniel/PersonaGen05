@@ -6,14 +6,11 @@ import { ThemeProvider } from './context/ThemeContext';
 
 const UploadSample = lazy(() => import('./components/GhostWriter/UploadSample'));
 const PersonaList = lazy(() => import('./components/GhostWriter/PersonaList'));
-const GenerateContent = lazy(() => import('./components/GhostWriter/GenerateContent'));
 const BlogPosts = lazy(() => import('./components/GhostWriter/BlogPosts'));
 const NavBar = lazy(() => import('./components/Layout/NavBar'));
 const Login = lazy(() => import('./components/Auth/Login'));
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));  // Import ProtectedRoute
-const Dashboard = lazy(() => import('./components/Dashboard/Dashboard'));
-const About = lazy(() => import('./components/About/About'));
-const Documentation = lazy(() => import('./components/Documentation/Documentation'));
+const GenerateContent = lazy(() => import('./components/GhostWriter/GenerateContent'));
 
 const App: React.FC = () => {
   return (
@@ -23,7 +20,6 @@ const App: React.FC = () => {
           <NavBar />
           <div style={{ padding: '20px' }}>
             <Routes>
-              <Route path="/home" element={<Dashboard />} />
               <Route path="/login" element={<Login />} />
               <Route 
                 path="/" 
@@ -54,30 +50,6 @@ const App: React.FC = () => {
                 element={
                   <ProtectedRoute>
                     <BlogPosts />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/dashboard" 
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/about" 
-                element={
-                  <ProtectedRoute>
-                    <About />
-                  </ProtectedRoute>
-                } 
-              />
-              <Route 
-                path="/documentation" 
-                element={
-                  <ProtectedRoute>
-                    <Documentation />
                   </ProtectedRoute>
                 } 
               />
