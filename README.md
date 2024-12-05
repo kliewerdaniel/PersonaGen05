@@ -12,8 +12,11 @@ PersonaGen05 is an open-source tool designed to streamline the creation of detai
 To install PersonaGen05, follow these steps:
 
 # Step 1: Set up a Python virtual environment
+
 python3 -m venv venv
+
 source venv/bin/activate
+
 pip install --upgrade pip
 
 # Step 2: Create a .env file
