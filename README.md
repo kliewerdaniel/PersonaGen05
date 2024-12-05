@@ -11,44 +11,38 @@ PersonaGen05 is an open-source tool designed to streamline the creation of detai
 
 To install PersonaGen05, follow these steps:
 
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/kliewerdaniel/PersonaGen05.git
-   ```
-2. **Navigate to the Project Directory:**
-   ```bash
-   cd PersonaGen05
-   ```
-3. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+# Step 1: Set up a Python virtual environment
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
 
-**Usage:**
+# Step 2: Create a .env file
+echo "# Environment variables go here" > .env
 
-After installation, you can start generating personas by running the application:
+# Step 3: Create a .gitignore file with appropriate entries
+cat <<EOL > .gitignore
+.env
+node_modules
+venv
+__pycache__/
+*.pyc
+*.pyo
+db.sqlite3
+EOL
 
-```bash
-python main.py
-```
+# Step 4: Clone the repository
+git clone https://github.com/kliewerdaniel/PersonaGen05.git
+cd PersonaGen05/backend
 
-Follow the on-screen instructions to customize and generate personas as needed.
+# Step 5: Set up the Django backend
+python3 manage.py createsuperuser
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver 
 
-**Contributing:**
+# Step 6: Set up the frontend
+cd ../ghost-writer-frontend
+npm install
+npm run dev
 
-We welcome contributions to enhance PersonaGen05. To contribute:
 
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Implement your changes.
-4. Submit a pull request with a detailed description of your changes.
-
-**License:**
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
-
-**Contact:**
-
-For questions or feedback, please open an issue in the repository or contact the maintainer directly.
-
-Enhance your projects with realistic and tailored personas using PersonaGen05! 
