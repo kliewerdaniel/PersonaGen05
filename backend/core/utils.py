@@ -108,7 +108,6 @@ def analyze_writing_sample(writing_sample):
                     "cultural_background": "[brief description]",
                     "primary_language": "[language]",
                     "language_fluency": "[native/fluent/intermediate/beginner]",
-                    "background": "[A brief paragraph describing the author's context, major influences, and any other relevant information not captured above]"
 
                     Writing Sample:
                     {writing_sample}
