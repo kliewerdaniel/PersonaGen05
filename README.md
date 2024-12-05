@@ -1,4 +1,4 @@
-PersonaGen05 is an open-source tool designed to streamline the creation of detailed and realistic personas for various applications, including marketing, game development, and UX design. By leveraging advanced AI algorithms, it enables users to generate comprehensive persona profiles tailored to specific project requirements.
+PersonaGen is an open-source tool designed to streamline the creation of detailed and realistic personas for various applications, including marketing, game development, and UX design. By leveraging advanced AI algorithms, it enables users to generate comprehensive persona profiles tailored to specific project requirements.
 
 **Key Features:**
 
@@ -21,7 +21,7 @@ PersonaGen05 is an open-source tool designed to streamline the creation of detai
 
 **Installation:**
 
-To install PersonaGen05, follow these steps:
+To install PersonaGen, follow these steps:
 
 # Step 1: Set up a Python virtual environment
 
@@ -57,7 +57,7 @@ EOL
 
 # Step 4: Clone the repository
 
-git clone https://github.com/kliewerdaniel/PersonaGen05.git
+git clone https://github.com/kliewerdaniel/PersonaGen.git
 
 cd PersonaGen05/backend
 
