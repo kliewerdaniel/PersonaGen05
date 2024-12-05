@@ -7,6 +7,16 @@ PersonaGen05 is an open-source tool designed to streamline the creation of detai
 - **Real-Time Updates:** Modify persona attributes dynamically and observe immediate changes.
 - **User-Friendly Interface:** Navigate through an intuitive design that enhances productivity and ease of use.
 
+<img width="942" alt="Screen Shot 2024-12-05 at 1 52 05 PM" src="https://github.com/user-attachments/assets/51012138-77da-4b0a-91fc-48371a43c10e">
+<img width="942" alt="Screen Shot 2024-12-05 at 1 52 13 PM" src="https://github.com/user-attachments/assets/b22a52e7-23d2-4519-a308-71144f1c0915">
+<img width="942" alt="Screen Shot 2024-12-05 at 1 52 29 PM" src="https://github.com/user-attachments/assets/cec1793d-b0aa-4dd9-b34e-5ce4ccee7f12">
+<img width="942" alt="Screen Shot 2024-12-05 at 1 52 51 PM" src="https://github.com/user-attachments/assets/cba53248-7b64-4214-8dbc-b92884102634">
+
+
+
+
+
+
 **Installation:**
 
 To install PersonaGen05, follow these steps:
@@ -51,7 +61,7 @@ cd PersonaGen05/backend
 
 # Step 5: Set up the Django backend
 
-python3 manage.py createsuperuser
+python3 manage.py createsuperuser!
 
 python3 manage.py makemigrations
 
