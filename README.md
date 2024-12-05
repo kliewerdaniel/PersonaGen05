@@ -1,58 +1,54 @@
-# PersonaGen: Your AI-Powered Persona Creation Tool
+PersonaGen05 is an open-source tool designed to streamline the creation of detailed and realistic personas for various applications, including marketing, game development, and UX design. By leveraging advanced AI algorithms, it enables users to generate comprehensive persona profiles tailored to specific project requirements.
 
-Welcome to PersonaGen! This innovative tool is designed to help you create detailed, realistic personas quickly and effortlessly. Whether you're a marketer, game developer, or UX designer, PersonaGen leverages advanced AI technology to generate personas that meet your specific needs.
+**Key Features:**
 
-## What is PersonaGen?
+- **Customizable Persona Generation:** Create personas that align with your project's unique needs by adjusting various attributes.
+- **Diverse Templates:** Utilize a selection of templates suitable for different industries and use cases.
+- **Real-Time Updates:** Modify persona attributes dynamically and observe immediate changes.
+- **User-Friendly Interface:** Navigate through an intuitive design that enhances productivity and ease of use.
 
-PersonaGen is an open-source project that simplifies the process of persona creation. It uses cutting-edge AI algorithms to generate comprehensive persona profiles, helping you understand your target audience better and make informed decisions.
+**Installation:**
 
-### Core Features of PersonaGen:
+To install PersonaGen05, follow these steps:
 
-- **Customizable Persona Generation:** Tailor personas to fit your project's unique requirements.
-- **Diverse Templates:** Access a variety of templates for different industries and use cases.
-- **Real-Time Updates:** Modify persona attributes on the fly and see instant results.
-- **User-Friendly Interface:** Enjoy a seamless experience with an intuitive design that enhances productivity.
-
-## Key Benefits
-
-1. **Time Efficiency:** Save hours of manual work with automated persona creation.
-2. **Enhanced Creativity:** Use AI-generated personas to inspire new ideas and strategies.
-3. **Improved Accuracy:** Rely on data-driven insights to create realistic and relevant personas.
-
-## Getting Started
-
-Before using PersonaGen, ensure your system meets the following prerequisites:
-
-- **Node.js 14+**
-- **npm 6+**
-
-### Installation Steps
-
-1. **Clone the Repository**
+1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/PersonaGen.git
-   cd PersonaGen
+   git clone https://github.com/kliewerdaniel/PersonaGen05.git
+   ```
+2. **Navigate to the Project Directory:**
+   ```bash
+   cd PersonaGen05
+   ```
+3. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
    ```
 
-2. **Install Dependencies**
-   ```bash
-   npm install
-   ```
+**Usage:**
 
-3. **Run the Application**
-   ```bash
-   npm start
-   ```
+After installation, you can start generating personas by running the application:
 
-## Contribution Guidelines
+```bash
+python main.py
+```
 
-We welcome contributions from the community! To contribute to PersonaGen, please follow these steps:
+Follow the on-screen instructions to customize and generate personas as needed.
+
+**Contributing:**
+
+We welcome contributions to enhance PersonaGen05. To contribute:
 
 1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Commit your changes and push to your fork.
+2. Create a new branch for your feature or bug fix.
+3. Implement your changes.
 4. Submit a pull request with a detailed description of your changes.
 
-PersonaGen is more than just a tool; it's your partner in understanding and connecting with your audience. Whether you're looking to enhance your marketing strategies or create engaging characters, PersonaGen is here to assist.
+**License:**
 
-**Ready to generate personas?** Follow the installation steps above and start creating today!
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+**Contact:**
+
+For questions or feedback, please open an issue in the repository or contact the maintainer directly.
+
+Enhance your projects with realistic and tailored personas using PersonaGen05! 
