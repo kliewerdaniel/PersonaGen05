@@ -1,15 +1,29 @@
+# Import necessary libraries
 import logging
 import openai
 import json
 import os
 import re
 from dotenv import load_dotenv
+
+# Configure logger
 logger = logging.getLogger(__name__)
 
+# Load environment variables
 load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
+
 def analyze_writing_sample(writing_sample):
+    """
+    Analyzes a given writing sample to assess various characteristics.
+    
+    Parameters:
+    - writing_sample (str): The text to analyze.
+    
+    Returns:
+    - dict: Analysis results in JSON format.
+    """
     try:
         response = openai.chat.completions.create(
             model="gpt-4o",
@@ -128,6 +142,16 @@ def analyze_writing_sample(writing_sample):
 
 
 def generate_content(persona_data, prompt):
+    """
+    Generates content based on a given persona and prompt.
+    
+    Parameters:
+    - persona_data (dict): Data describing the persona.
+    - prompt (str): The prompt to write about.
+    
+    Returns:
+    - str: The generated content.
+    """
     try:
         # Format the persona data into a readable string
         characteristics = '\n'.join([
@@ -166,5 +190,12 @@ def generate_content(persona_data, prompt):
 
 
 def save_blog_post(blog_post, title):
+    """
+    Saves a blog post to a file.
+    
+    Parameters:
+    - blog_post (str): The content of the blog post.
+    - title (str): The title of the blog post.
+    """
     # Implement if needed
     pass

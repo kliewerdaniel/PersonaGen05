@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import axios from '../../services/api'; // Adjust the path if necessary
 import { useSearchParams } from 'react-router-dom';
-import { Box, Button, TextField, Typography, Alert, CircularProgress, Card, CardContent } from '@mui/material';
+import { Box, Button, TextField, Typography, Alert, CircularProgress, Card, CardContent, Snackbar } from '@mui/material';
 
 interface BlogPost {
   id: number;
@@ -21,14 +21,17 @@ const GenerateContent: React.FC = () => {
   const [content, setContent] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
 
   const handleGenerate = async () => {
     if (!prompt) {
       setError('Please enter a prompt.');
+      setOpen(true);
       return;
     }
     if (!personaId) {
       setError('Invalid Persona ID.');
+      setOpen(true);
       return;
     }
     setLoading(true);
@@ -53,49 +56,47 @@ const GenerateContent: React.FC = () => {
     }
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <Box p={4} maxWidth="600px" mx="auto">
-      <Typography variant="h4" gutterBottom>
-        Generate Content
-      </Typography>
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-      )}
-      <TextField
-        label="Prompt"
-        variant="outlined"
-        fullWidth
-        multiline
-        rows={4}
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        placeholder="Enter a topic or prompt..."
-        required
-        sx={{ mb: 3 }}
-      />
-      <Button
-        onClick={handleGenerate}
-        variant="contained"
-        color="primary"
-        disabled={loading}
-        fullWidth
-      >
-        {loading ? <CircularProgress size={24} /> : 'Generate Content'}
-      </Button>
-      {content && (
-        <Card variant="outlined" sx={{ mt: 4 }}>
-          <CardContent>
-            <Typography variant="h5" gutterBottom>
-              {content.title || 'Untitled'}
-            </Typography>
-            <Typography variant="body1">
-              {content.content}
-            </Typography>
-          </CardContent>
-        </Card>
-      )}
+    <Box sx={{ mt: 4 }}>
+      <Card>
+        <CardContent>
+          <Typography variant="h5" component="div">
+            Generate Content
+          </Typography>
+          <TextField
+            fullWidth
+            label="Enter your prompt"
+            variant="outlined"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            sx={{ my: 2 }}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleGenerate}
+            disabled={loading}
+          >
+            {loading ? <CircularProgress size={24} /> : 'Generate'}
+          </Button>
+          {content && (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="h6">Generated Content:</Typography>
+              <Typography variant="body1">{content.content}</Typography>
+            </Box>
+          )}
+          <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            message={error}
+          />
+        </CardContent>
+      </Card>
     </Box>
   );
 };
