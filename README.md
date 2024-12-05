@@ -20,32 +20,53 @@ source venv/bin/activate
 pip install --upgrade pip
 
 # Step 2: Create a .env file
+
 echo "# Environment variables go here" > .env
 
 # Step 3: Create a .gitignore file with appropriate entries
+
 cat <<EOL > .gitignore
+
 .env
+
 node_modules
+
 venv
+
 __pycache__/
+
 *.pyc
+
 *.pyo
+
 db.sqlite3
+
 EOL
 
 # Step 4: Clone the repository
+
 git clone https://github.com/kliewerdaniel/PersonaGen05.git
+
 cd PersonaGen05/backend
 
 # Step 5: Set up the Django backend
+
 python3 manage.py createsuperuser
+
 python3 manage.py makemigrations
+
 python3 manage.py migrate
+
 python3 manage.py runserver 
 
+
 # Step 6: Set up the frontend
+
 cd ../ghost-writer-frontend
+
 npm install
+
 npm run dev
+
 
 
