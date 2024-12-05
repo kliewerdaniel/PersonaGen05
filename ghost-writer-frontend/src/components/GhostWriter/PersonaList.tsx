@@ -10,20 +10,45 @@ interface Persona {
   id: number;
   name: string;
   description: string;
+  
+  // Numerical characteristics (1-10)
   vocabulary_complexity: number;
+  formality_level: number;
+  idiom_usage: number;
+  metaphor_frequency: number;
+  simile_frequency: number;
+  technical_jargon_usage: number;
+  humor_sarcasm_usage: number;
+  openness_to_experience: number;
+  conscientiousness: number;
+  extraversion: number;
+  agreeableness: number;
+  emotional_stability: number;
+  emotion_level: number;
+
+  // Textual characteristics
   sentence_structure: string;
   paragraph_organization: string;
   tone: string;
-  formality_level: number;
-  emotional_expressiveness: number;
-  humor_sarcasm_usage: number;
-  technical_jargon_usage: number;
-  openness_to_experience: number;
-  empathy_level: number;
-  self_confidence: number;
-  decision_making_style: string;
-  core_values: string;
+  punctuation_style: string;
+  pronoun_preference: string;
   dominant_motivations: string;
+  core_values: string;
+  decision_making_style: string;
+
+  // Personal attributes
+  age?: number;
+  gender?: string;
+  education_level?: string;
+  professional_background?: string;
+  cultural_background?: string;
+  primary_language?: string;
+  language_fluency?: string;
+
+  // Metadata
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 const PersonaList: React.FC = () => {
@@ -81,12 +106,17 @@ const PersonaList: React.FC = () => {
     return [
       { name: 'Vocabulary', value: persona.vocabulary_complexity },
       { name: 'Formality', value: persona.formality_level },
-      { name: 'Emotion', value: persona.emotional_expressiveness },
-      { name: 'Humor', value: persona.humor_sarcasm_usage },
+      { name: 'Idioms', value: persona.idiom_usage },
+      { name: 'Metaphors', value: persona.metaphor_frequency },
+      { name: 'Similes', value: persona.simile_frequency },
       { name: 'Technical', value: persona.technical_jargon_usage },
+      { name: 'Humor', value: persona.humor_sarcasm_usage },
       { name: 'Openness', value: persona.openness_to_experience },
-      { name: 'Empathy', value: persona.empathy_level },
-      { name: 'Confidence', value: persona.self_confidence },
+      { name: 'Conscientiousness', value: persona.conscientiousness },
+      { name: 'Extraversion', value: persona.extraversion },
+      { name: 'Agreeableness', value: persona.agreeableness },
+      { name: 'Emotional Stability', value: persona.emotional_stability },
+      { name: 'Emotion', value: persona.emotion_level },
     ];
   };
 
@@ -174,6 +204,18 @@ const PersonaList: React.FC = () => {
                       color="primary" 
                       variant="outlined"
                     />
+                    <Chip 
+                      label={`Punctuation: ${persona.punctuation_style}`} 
+                      size="small" 
+                      color="primary" 
+                      variant="outlined"
+                    />
+                    <Chip 
+                      label={`Pronouns: ${persona.pronoun_preference}`} 
+                      size="small" 
+                      color="primary" 
+                      variant="outlined"
+                    />
                   </Box>
 
                   <Typography variant="subtitle2" gutterBottom>
@@ -192,7 +234,48 @@ const PersonaList: React.FC = () => {
                       color="secondary" 
                       variant="outlined"
                     />
+                    <Chip 
+                      label={`Motivations: ${persona.dominant_motivations}`} 
+                      size="small" 
+                      color="secondary" 
+                      variant="outlined"
+                    />
                   </Box>
+
+                  {persona.age && (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                      <Chip 
+                        label={`Age: ${persona.age}`} 
+                        size="small" 
+                        color="info" 
+                        variant="outlined"
+                      />
+                      {persona.gender && (
+                        <Chip 
+                          label={`Gender: ${persona.gender}`} 
+                          size="small" 
+                          color="info" 
+                          variant="outlined"
+                        />
+                      )}
+                      {persona.education_level && (
+                        <Chip 
+                          label={`Education: ${persona.education_level}`} 
+                          size="small" 
+                          color="info" 
+                          variant="outlined"
+                        />
+                      )}
+                      {persona.primary_language && (
+                        <Chip 
+                          label={`Language: ${persona.primary_language}`} 
+                          size="small" 
+                          color="info" 
+                          variant="outlined"
+                        />
+                      )}
+                    </Box>
+                  )}
                 </Box>
 
                 <Box sx={{ mt: 3, height: 200 }}>
