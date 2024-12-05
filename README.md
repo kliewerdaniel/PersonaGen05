@@ -12,6 +12,7 @@ PersonaGen05 is an open-source tool designed to streamline the creation of detai
 <img width="942" alt="Screen Shot 2024-12-05 at 1 52 29 PM" src="https://github.com/user-attachments/assets/cec1793d-b0aa-4dd9-b34e-5ce4ccee7f12">
 <img width="942" alt="Screen Shot 2024-12-05 at 1 52 51 PM" src="https://github.com/user-attachments/assets/cba53248-7b64-4214-8dbc-b92884102634">
 
+<img width="942" alt="Screen Shot 2024-12-05 at 3 42 39 PM" src="https://github.com/user-attachments/assets/299570cc-ec5c-4cb7-ba96-51968f35e103">
 
 
 
