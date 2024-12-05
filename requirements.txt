@@ -45,4 +45,3 @@ redis>=4.5,<5.0
 # Optional: Django Storages for handling file storage
 django-storages>=1.14
 
-python-decouple>=3.8

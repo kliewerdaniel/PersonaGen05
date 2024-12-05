@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from '../../services/api'; // Adjust the path if necessary
-import { CircularProgress, Typography, Box, Card, CardContent } from '@mui/material';
+import { CircularProgress, Typography, Box, Card, CardContent, Button } from '@mui/material';
 
 interface BlogPost {
   id: number;
-  persona: string;
+  persona_name: string;
   title: string;
   content: string;
   created_at: string;
@@ -33,6 +33,16 @@ const BlogPosts: React.FC = () => {
     fetchBlogPosts();
   }, []);
 
+  const deleteBlogPost = async (id: number) => {
+    try {
+      await axios.delete(`content/${id}/`);
+      setBlogPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+    } catch (err) {
+      console.error('Error deleting blog post:', err);
+      setError('Failed to delete blog post.');
+    }
+  };
+
   if (loading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -52,25 +62,32 @@ const BlogPosts: React.FC = () => {
   }
 
   return (
-    <Box p={4}>
-      <Typography variant="h4" gutterBottom>
-        Output
+    <Box p={4} sx={{ maxWidth: '800px', mx: 'auto' }}>
+      <Typography variant="h4" gutterBottom align="center">
+        Blog Posts
       </Typography>
       {blogPosts.length === 0 ? (
-        <Typography variant="body1">No blog posts found.</Typography>
+        <Typography variant="body1" align="center">No blog posts found.</Typography>
       ) : (
         blogPosts.map((post) => (
-          <Card key={post.id} variant="outlined" sx={{ mb: 2 }}>
+          <Card key={post.id} variant="outlined" sx={{ mb: 3, boxShadow: 2 }}>
             <CardContent>
-              <Typography variant="h5" gutterBottom>
+              <Typography variant="h5" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
                 {post.title || 'Untitled'}
               </Typography>
-              <Typography variant="body2" paragraph>
-                {post.content}
+              <Typography variant="body1" paragraph>
+                {post.content.split('\n').map((paragraph, index) => (
+                  <Typography key={index} paragraph>
+                    {paragraph}
+                  </Typography>
+                ))}
               </Typography>
-              <Typography variant="caption" color="text.secondary">
-                By: {post.persona} on {new Date(post.created_at).toLocaleString()}
+              <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
+                By: {post.persona_name} on {new Date(post.created_at).toLocaleString()}
               </Typography>
+              <Button variant="contained" color="secondary" onClick={() => deleteBlogPost(post.id)} sx={{ mt: 2 }}>
+                Delete
+              </Button>
             </CardContent>
           </Card>
         ))

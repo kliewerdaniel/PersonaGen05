@@ -7,8 +7,30 @@ from .serializers import PersonaSerializer, ContentPieceSerializer
 from .models import Persona, ContentPiece
 from .utils import generate_content
 import logging
-
+from django.contrib.auth.models import User
+from django.views import View
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+import json
 logger = logging.getLogger(__name__)
+
+@method_decorator(csrf_exempt, name='dispatch')
+class RegisterView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
+        email = data.get('email')
+
+        if not username or not password or not email:
+            return JsonResponse({'error': 'Missing fields'}, status=400)
+
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({'error': 'Username already exists'}, status=400)
+
+        user = User.objects.create_user(username=username, password=password, email=email)
+        return JsonResponse({'message': 'User created successfully'}, status=201)
 
 class PersonaViewSet(viewsets.ModelViewSet):
     serializer_class = PersonaSerializer
@@ -43,6 +65,8 @@ class PersonaViewSet(viewsets.ModelViewSet):
     def _split_content(self, generated_content):
         lines = generated_content.strip().split('\n')
         title = lines[0] if lines else 'Untitled'
+        # Remove 'Title:' prefix and quotes from the title
+        title = title.replace('Title:', '').strip().strip('"')
         content = '\n'.join(lines[1:]) if len(lines) > 1 else ''
         return title, content
 

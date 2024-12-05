@@ -9,6 +9,7 @@ const UploadSample: React.FC = () => {
   const [writingSample, setWritingSample] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -19,6 +20,7 @@ const UploadSample: React.FC = () => {
     };
 
     try {
+      setLoading(true);
       console.log('Payload being sent:', payload);
       const response = await axios.post('personas/', payload);
       console.log('Response received:', response.data);
@@ -35,6 +37,8 @@ const UploadSample: React.FC = () => {
         setError('An error occurred while uploading the writing sample.');
       }
       setSuccess(null);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,8 +78,8 @@ const UploadSample: React.FC = () => {
             onChange={(e) => setWritingSample(e.target.value)}
             required
           />
-          <Button type="submit" variant="contained" color="primary" size="large">
-            Submit
+          <Button type="submit" variant="contained" color="primary" size="large" disabled={loading}>
+            {loading ? 'Processing...' : 'Submit'}
           </Button>
         </Stack>
       </form>

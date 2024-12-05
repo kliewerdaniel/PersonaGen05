@@ -153,17 +153,17 @@ def generate_content(persona_data, prompt):
     - str: The generated content.
     """
     try:
-        # Format the persona data into a readable string
-        characteristics = '\n'.join([
-            f"{key.replace('_', ' ').capitalize()}: {value}"
-            for key, value in persona_data.items()
-            if value is not None and key not in ['id', 'name']
-        ])
+        # Construct detailed sentences for each characteristic
+        detailed_characteristics = []
+        for key, value in persona_data.items():
+            if value is not None and key not in ['id', 'name']:
+                characteristic = key.replace('_', ' ').capitalize()
+                detailed_characteristics.append(f"Consider the {characteristic} which is rated as {value}.")
 
         decoding_prompt = f'''
         You are to write a response in the style of {persona_data.get('name', 'Unknown Author')}, a writer with the following characteristics:
 
-        {characteristics}
+        {' '.join(detailed_characteristics)}
 
         Now, please write a response in this style about the following topic:
         "{prompt}"

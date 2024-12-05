@@ -48,6 +48,8 @@ export const authService = {
     api.post('token/', { username, password }),
   refresh: (token: string) => 
     api.post('token/refresh/', { refresh: token }),
+  register: (username: string, password: string, email: string) => 
+    api.post('register/', { username, password, email }),
 };
 
 export default api;

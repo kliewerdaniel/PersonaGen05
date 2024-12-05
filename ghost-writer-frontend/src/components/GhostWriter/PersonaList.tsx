@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import axios from '../../services/api'; // Adjust the path if necessary
 import { useNavigate } from 'react-router-dom';
 import './PersonaList.css'; // Import the CSS file for styling
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Card, CardContent, CardActions, CircularProgress, Avatar, Grid } from '@mui/material';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
 interface Persona {
   id: number;
@@ -39,30 +40,65 @@ const PersonaList: React.FC = () => {
     navigate(`/generate?personaId=${personaId}`);
   };
 
-  if (loading) return <div className="loading">Loading...</div>;
-  if (error) return <div className="error">{error}</div>;
+  const handleExportPersona = (persona: Persona) => {
+    const dataStr = JSON.stringify(persona, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${persona.name}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleDeletePersona = async (personaId: number) => {
+    try {
+      await axios.delete(`personas/${personaId}/`);
+      setPersonas(personas.filter(persona => persona.id !== personaId));
+    } catch (err) {
+      console.error('Error deleting persona:', err);
+      setError('Failed to delete persona.');
+    }
+  };
+
+  if (loading) return <CircularProgress />;
+  if (error) return <Typography color="error">{error}</Typography>;
 
   return (
-    <div className="persona-list-container">
-      <h2 className="title">Saved Personas</h2>
-      {personas.length === 0 ? (
-        <p className="no-personas">No personas found.</p>
-      ) : (
-        <div className="persona-cards">
-          {personas.map((persona) => (
-            <div key={persona.id} className="persona-card">
-              <h3 className="persona-name">{persona.name}</h3>
-              <button
-                className="generate-button"
-                onClick={() => handleSelectPersona(persona.id)}
-              >
-                Generate Content
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+    <Box sx={{ maxWidth: 1200, mx: 'auto', mt: 4 }}>
+      <Grid container spacing={3}>
+        {personas.map((persona) => (
+          <Grid item xs={12} sm={6} md={4} key={persona.id}>
+            <Card sx={{ minWidth: 275, position: 'relative', overflow: 'visible' }}>
+              <CardContent>
+                <Avatar sx={{ bgcolor: 'primary.main', width: 56, height: 56, mb: 2 }}>
+                  {persona.name.charAt(0)}
+                </Avatar>
+                <Typography variant="h5" component="div">
+                  {persona.name}
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  {persona.description}
+                </Typography>
+                <ResponsiveContainer width="100%" height={100}>
+                  <BarChart data={Object.entries(persona.data).map(([key, value]) => ({ name: key, value }))}>
+                    <XAxis dataKey="name" hide />
+                    <YAxis hide />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="#8884d8" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </CardContent>
+              <CardActions>
+                <Button size="small" onClick={() => handleSelectPersona(persona.id)}>Generate</Button>
+                <Button size="small" onClick={() => handleExportPersona(persona)}>Export</Button>
+                <Button size="small" onClick={() => handleDeletePersona(persona.id)}>Delete</Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 };
 

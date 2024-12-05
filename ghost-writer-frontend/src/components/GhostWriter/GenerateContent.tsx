@@ -1,9 +1,9 @@
 // src/components/GhostWriter/GenerateContent.tsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from '../../services/api'; // Adjust the path if necessary
 import { useSearchParams } from 'react-router-dom';
-import { Box, Button, TextField, Typography, Alert, CircularProgress, Card, CardContent, Snackbar } from '@mui/material';
+import { Box, Button, TextField, Typography, Alert, CircularProgress, Card, CardContent, Snackbar, Tooltip } from '@mui/material';
 
 interface BlogPost {
   id: number;
@@ -22,6 +22,19 @@ const GenerateContent: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState<boolean>(false);
+  const [personaName, setPersonaName] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (personaId) {
+      axios.get(`personas/${personaId}/`).then(response => {
+        setPersonaName(response.data.name);
+      }).catch(err => {
+        console.error('Error fetching persona name:', err);
+        setError('Failed to fetch persona name.');
+        setOpen(true);
+      });
+    }
+  }, [personaId]);
 
   const handleGenerate = async () => {
     if (!prompt) {
@@ -39,64 +52,68 @@ const GenerateContent: React.FC = () => {
 
     try {
       const response = await axios.post(`personas/${personaId}/generate_content/`, {
-        prompt: prompt,
+        prompt,
       });
       setContent(response.data);
-      setError(null);
-      setPrompt('');
-    } catch (err: any) {
+    } catch (err) {
       console.error('Error generating content:', err);
-      if (err.response && err.response.data) {
-        setError(JSON.stringify(err.response.data));
-      } else {
-        setError('Failed to generate content.');
-      }
+      setError('Failed to generate content. Please try again.');
+      setOpen(true);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleClose = () => {
+  const handleCloseSnackbar = () => {
     setOpen(false);
   };
 
   return (
-    <Box sx={{ mt: 4 }}>
+    <Box sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
       <Card>
         <CardContent>
-          <Typography variant="h5" component="div">
+          <Typography variant="h5" component="div" gutterBottom>
             Generate Content
           </Typography>
-          <TextField
-            fullWidth
-            label="Enter your prompt"
-            variant="outlined"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            sx={{ my: 2 }}
-          />
+          {personaName && (
+            <Typography variant="h6" component="div" gutterBottom>
+              Current Persona: {personaName}
+            </Typography>
+          )}
+          <Tooltip title="Enter a creative prompt to generate content based on the selected persona." arrow>
+            <TextField
+              fullWidth
+              label="Prompt"
+              placeholder="Enter your prompt here"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              margin="normal"
+              variant="outlined"
+            />
+          </Tooltip>
           <Button
             variant="contained"
             color="primary"
             onClick={handleGenerate}
             disabled={loading}
+            fullWidth
           >
-            {loading ? <CircularProgress size={24} /> : 'Generate'}
+            {loading ? <CircularProgress size={24} color="inherit" /> : 'Generate'}
           </Button>
           {content && (
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="h6">Generated Content:</Typography>
-              <Typography variant="body1">{content.content}</Typography>
+            <Box mt={2}>
+              <Typography variant="h6">Generated Content</Typography>
+              <Typography>{content.title}</Typography>
+              <Typography>{content.content}</Typography>
             </Box>
           )}
-          <Snackbar
-            open={open}
-            autoHideDuration={6000}
-            onClose={handleClose}
-            message={error}
-          />
         </CardContent>
       </Card>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+          {error}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };
