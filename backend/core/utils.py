@@ -136,51 +136,78 @@ def analyze_writing_sample(writing_sample):
         return None
 
 
-def generate_content(persona_data, prompt):
+def generate_content(persona, prompt):
     """
     Generates content based on a given persona and prompt.
     
     Parameters:
-    - persona_data (dict): Data describing the persona.
+    - persona (Persona): The persona object with individual fields.
     - prompt (str): The prompt to write about.
     
     Returns:
     - str: The generated content.
     """
     try:
-        # Construct detailed sentences for each characteristic
-        detailed_characteristics = []
-        for key, value in persona_data.items():
-            if value is not None and key not in ['id', 'name']:
-                characteristic = key.replace('_', ' ').capitalize()
-                detailed_characteristics.append(f"Consider the {characteristic} which is rated as {value}.")
+        # Convert persona fields into a format suitable for the prompt
+        persona_traits = {
+            "Writing Style": {
+                "vocabulary_complexity": f"{persona.vocabulary_complexity}/10",
+                "sentence_structure": persona.sentence_structure,
+                "paragraph_organization": persona.paragraph_organization,
+                "tone": persona.tone,
+                "punctuation_style": persona.punctuation_style,
+                "pronoun_preference": persona.pronoun_preference,
+                "formality_level": f"{persona.formality_level}/10",
+            },
+            "Language Patterns": {
+                "idiom_usage": f"{persona.idiom_usage}/10",
+                "metaphor_frequency": f"{persona.metaphor_frequency}/10",
+                "simile_frequency": f"{persona.simile_frequency}/10",
+                "technical_jargon_usage": f"{persona.technical_jargon_usage}/10",
+                "humor_sarcasm_usage": f"{persona.humor_sarcasm_usage}/10",
+            },
+            "Personality": {
+                "openness_to_experience": f"{persona.openness_to_experience}/10",
+                "conscientiousness": f"{persona.conscientiousness}/10",
+                "extraversion": f"{persona.extraversion}/10",
+                "agreeableness": f"{persona.agreeableness}/10",
+                "emotional_stability": f"{persona.emotional_stability}/10",
+                "dominant_motivations": persona.dominant_motivations,
+                "core_values": persona.core_values,
+                "decision_making_style": persona.decision_making_style,
+            }
+        }
 
-        decoding_prompt = f'''
-        You are to write a response in the style of {persona_data.get('name', 'Unknown Author')}, a writer with the following characteristics:
+        # Create the system prompt
+        system_prompt = f"""You are a writer with the following characteristics:
 
-        {' '.join(detailed_characteristics)}
+Writing Style:
+{persona_traits['Writing Style']}
 
-        Now, please write a response in this style about the following topic:
-        "{prompt}"
-        Begin with a compelling title that reflects the content of the post.
-        '''
+Language Patterns:
+{persona_traits['Language Patterns']}
+
+Personality:
+{persona_traits['Personality']}
+
+Write in a way that naturally reflects these characteristics. The response should include a title."""
+
+        # Combine system prompt and user prompt
+        combined_prompt = f"{system_prompt}\n\nWrite about: {prompt}"
 
         response = openai.chat.completions.create(
             model="o1-preview",
             messages=[
-                {"role": "user", "content": decoding_prompt}
+                {"role": "user", "content": combined_prompt}
             ],
-            temperature=1
+            temperature=1,
+            max_completion_tokens=5000
         )
-
-        assistant_message = response.choices[0].message.content.strip()
-        logger.debug(f"Assistant message: {assistant_message}")
-
-        return assistant_message
-
+        
+        return response.choices[0].message.content.strip()
     except Exception as e:
-        logger.error(f"Error with OpenAI API: {e}")
-        return ''
+        logger.error(f"Error generating content: {str(e)}")
+        return None
 
 
 def save_blog_post(blog_post, title):

@@ -39,7 +39,7 @@ class PersonaViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Persona.objects.filter(author=self.request.user.author)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post'], url_path='generate-content')
     def generate_content(self, request, pk=None):
         persona = self.get_object()
         prompt = request.data.get('prompt')
@@ -47,7 +47,7 @@ class PersonaViewSet(viewsets.ModelViewSet):
         if not prompt:
             return Response({'error': 'Prompt is required'}, status=400)
             
-        generated_content = generate_content(persona.data, prompt)
+        generated_content = generate_content(persona, prompt)
         
         if generated_content:
             title, content = self._split_content(generated_content)
