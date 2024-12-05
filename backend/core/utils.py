@@ -26,12 +26,8 @@ def analyze_writing_sample(writing_sample):
     """
     try:
         response = openai.chat.completions.create(
-            model="gpt-4o",
+            model="o1-preview",
             messages=[
-                {
-                    "role": "system",
-                    "content": "You are an assistant that analyzes writing samples."
-                },
                 {
                     "role": "user",
                     "content": f'''
@@ -119,7 +115,7 @@ def analyze_writing_sample(writing_sample):
                     '''
                 }
             ],
-            temperature=0
+            temperature=1
         )
 
         logger.debug(f"OpenAI API response: {response}")
@@ -171,12 +167,11 @@ def generate_content(persona_data, prompt):
         '''
 
         response = openai.chat.completions.create(
-            model="gpt-4",
+            model="o1-preview",
             messages=[
-                {"role": "system", "content": "You are an assistant that generates blog posts."},
                 {"role": "user", "content": decoding_prompt}
             ],
-            temperature=0
+            temperature=1
         )
 
         assistant_message = response.choices[0].message.content.strip()
