@@ -52,6 +52,10 @@ const PersonaList: React.FC = () => {
     navigate(`/generate?personaId=${personaId}`);
   };
 
+  const handleEditPersona = (personaId: number) => {
+    navigate(`/persona/edit/${personaId}`);
+  };
+
   const handleExportPersona = (persona: Persona) => {
     const dataStr = JSON.stringify(persona, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
@@ -206,28 +210,11 @@ const PersonaList: React.FC = () => {
                 </Box>
               </CardContent>
 
-              <CardActions sx={{ p: 2, pt: 0, gap: 1 }}>
-                <Button 
-                  variant="contained" 
-                  color="primary"
-                  onClick={() => handleSelectPersona(persona.id)}
-                  fullWidth
-                >
-                  Generate Content
-                </Button>
-                <Button 
-                  variant="outlined"
-                  onClick={() => handleExportPersona(persona)}
-                >
-                  Export
-                </Button>
-                <Button 
-                  variant="outlined"
-                  color="error"
-                  onClick={() => handleDeletePersona(persona.id)}
-                >
-                  Delete
-                </Button>
+              <CardActions sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
+                <Button size="small" onClick={() => handleSelectPersona(persona.id)}>Select</Button>
+                <Button size="small" onClick={() => handleEditPersona(persona.id)}>Edit</Button>
+                <Button size="small" onClick={() => handleExportPersona(persona)}>Export</Button>
+                <Button size="small" color="error" onClick={() => handleDeletePersona(persona.id)}>Delete</Button>
               </CardActions>
             </Card>
           </Grid>

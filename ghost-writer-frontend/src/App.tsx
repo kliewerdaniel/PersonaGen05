@@ -8,9 +8,10 @@ const UploadSample = lazy(() => import('./components/GhostWriter/UploadSample'))
 const PersonaList = lazy(() => import('./components/GhostWriter/PersonaList'));
 const BlogPosts = lazy(() => import('./components/GhostWriter/BlogPosts'));
 const NavBar = lazy(() => import('./components/Layout/NavBar'));
-const Login = lazy(() => import('./components/Auth/Login'));
+const Login = lazy(() => import('./components/Auth/Login'));  // Update import path for Login component
 const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));  // Import ProtectedRoute
 const GenerateContent = lazy(() => import('./components/GhostWriter/GenerateContent'));
+const EditPersona = lazy(() => import('./components/GhostWriter/EditPersona'));
 
 const App: React.FC = () => {
   return (
@@ -22,10 +23,18 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route 
-                path="/" 
+                path="/upload" 
                 element={
                   <ProtectedRoute>
                     <UploadSample />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/" 
+                element={
+                  <ProtectedRoute>
+                    <PersonaList />
                   </ProtectedRoute>
                 } 
               />
@@ -34,6 +43,14 @@ const App: React.FC = () => {
                 element={
                   <ProtectedRoute>
                     <PersonaList />
+                  </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/persona/edit/:id" 
+                element={
+                  <ProtectedRoute>
+                    <EditPersona />
                   </ProtectedRoute>
                 } 
               />

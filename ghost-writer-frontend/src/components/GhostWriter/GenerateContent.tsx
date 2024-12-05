@@ -53,7 +53,7 @@ const GenerateContent: React.FC = () => {
       }
 
       try {
-        const response = await axios.get(`api/personas/${personaId}/`);
+        const response = await axios.get(`personas/${personaId}/`);
         setPersona(response.data);
       } catch (err) {
         console.error('Error fetching persona:', err);
@@ -82,7 +82,7 @@ const GenerateContent: React.FC = () => {
     setError(null);
 
     try {
-      const response = await axios.post(`/personas/${personaId}/generate-content/`, {
+      const response = await axios.post(`personas/${personaId}/generate-content/`, {
         prompt,
       });
       setContent(response.data);
